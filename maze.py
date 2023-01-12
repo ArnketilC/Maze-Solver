@@ -13,6 +13,8 @@ class Maze:
         self.end = ""
         self.__fillGrid(file)
         self.__find_start_end()
+        self.path = []
+        self.already_checked = []
 
     def __fillGrid(self, file) -> None:
         """Fille the array of characters."""
@@ -47,17 +49,25 @@ class Maze:
 
     def __aStar(self, node) -> None:
         """Check next other nodes."""
-        neighbourgs = []
         for i in [-1, +1]:
             for j in [-1, +1]:
                 try:
                     checked = self.grid[node.x+i][node.y+j]
-                    if checked == self.end:
+                    if checked in self.already_checked:
+                        continue
+                    elif checked == self.end:
                         return
-                    neighbourgs.append(checked)
+                    self.already_checked.append(checked)
                 except IndexError:
                     pass
-        neighbourgs.sort(key=lambda x: x.heuristic, reverse=True)
+        self.already_checked.sort(key=lambda x: x.heuristic + x.cost, reverse=True)
+        print(self.already_checked)
+        # for neighbourg in neighbourg:
+        #     self.__astar(neighbourg)
+
+    def __dijikstra(node):
+        """Check the node for path"""
+        pass
 
     def solve_w_AStar(self):
         """Solve the maze using the A* algorithm."""
