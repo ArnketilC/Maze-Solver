@@ -55,6 +55,7 @@ class Maze:
     def __check_adjacent_node(self, node, debug=0) -> bool:
         """Check next other nodes."""
         cardinal = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        count = 0
         for i, j in cardinal:
             try:
                 target_node = self.grid[node.x + i][node.y + j]
@@ -70,33 +71,48 @@ class Maze:
                             target_node.step_cost = node.step_cost + 1 
                             target_node.calculate_combine_heuristic()
 
-                if target_node.name == "End":
+                elif target_node.name == "End":
                     target_node.last_node = node
                     return True
+                else:
+                    count += 1
             except:
                 pass
+        
         # Sort everything in the list
         self.already_checked.append(node)
         self.checked_list.sort(key=lambda x: x.combine_heuristic) #, reverse=True)
+
         return False
     
     def __aStar(self, node) -> None:
         """A star solver."""
         found_endpoint = False
-        cap = 0
+        skip = False
         last_node = ''
+        count = 0
         while (found_endpoint is False):
             for i, node in enumerate(self.checked_list):
                 if node not in self.already_checked:
+                    still_checking = True   
                     found_endpoint = self.__check_adjacent_node(self.checked_list[i])
                     last_node = node
                     break
-      
-        step_list = [self.end, last_node]
-        rep = ''
-        while (last_node.name != 'Start'):
-            last_node = last_node.last_node
-            step_list.append(last_node)
+                found_endpoint = False
+
+            if still_checking is False:
+                found_endpoint = True
+                skip = True
+            else:
+                still_checking = False
+           
+        if skip is False:
+            step_list = [self.end, last_node]
+            while (last_node.name != 'Start'):
+                last_node = last_node.last_node
+                step_list.append(last_node)
+        if skip is True:
+            return False
 
         return step_list
 
@@ -109,9 +125,12 @@ class Maze:
         print(self.start.name)
         self.__check_adjacent_node(self.start, debug=1)
         solution = self.__aStar(self.checked_list[0])
-        solution.reverse()
-        for i, node in enumerate(solution):
-            print(f"Step {i}: {node.give_your_name()} ")
+        if solution is not False:
+            solution.reverse()
+            for i, node in enumerate(solution):
+                print(f"Step {i}: {node.give_your_name()} ")
+        else:
+            print("No solution found !")
    
     def solve_w_Dijkstra(self):
         """Under construction."""
