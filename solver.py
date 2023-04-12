@@ -11,8 +11,8 @@ def time_it(foo, *args, **kwargs):
 
 def main() -> None:
     maze = Maze('maze')
-    print(type(maze.solve_w_AStar))
     maze.solve_w_AStar()
+    print("End")
 
 
 if __name__ == '__main__':
