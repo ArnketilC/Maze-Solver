@@ -28,3 +28,4 @@ class Node:
     def give_your_name(self) -> str:
         "Give it name and coordonates as string."
         return f"{self.name} @ coord: {self.x}, {self.y}"
+    

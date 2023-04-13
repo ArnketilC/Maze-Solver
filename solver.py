@@ -28,7 +28,8 @@ def dijkstra(maze):
 
 def main() -> None:
     # maze = Maze('maze')
-    maze = Maze('maze_2')
+    # maze = Maze('maze_2')
+    maze = Maze('assets/maze_2')
     # dijkstra(maze)
     print("-----")
     a_star(maze)
