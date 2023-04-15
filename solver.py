@@ -24,13 +24,13 @@ def dijkstra(maze):
     """Simple wraper for Dijkstra."""
     print("Solving with Dijkstra.")
     maze.solve_w_Dijkstra()
-    print("Solving with Dijkstra.")
+    print("Solved with Dijkstra.")
 
 def main() -> None:
-    # maze = Maze('maze')
+    maze = Maze('assets/maze')
     # maze = Maze('maze_2')
-    maze = Maze('assets/maze_2')
-    # dijkstra(maze)
+    # maze = Maze('assets/maze_2')
+    dijkstra(maze)
     print("-----")
     a_star(maze)
     print("End")
